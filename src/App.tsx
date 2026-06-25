@@ -11,12 +11,15 @@ import Login from "./pages/Login";
 import Search from "./pages/Search";
 import Watchlist from "./pages/Watchlist";
 import MovieDetail from "./pages/MovieDetail";
-
+import { getRedirectResult } from "firebase/auth";
+import { useEffect } from "react";
 const { Header, Content } = Layout;
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
-
+  useEffect(() => {
+    getRedirectResult(auth).catch(console.error);
+  }, []);
   if (loading)
     return (
       <Spin size="large" style={{ display: "block", margin: "80px auto" }} />
