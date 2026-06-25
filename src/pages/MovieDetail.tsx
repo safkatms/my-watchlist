@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Descriptions, Tag, Button, Spin, Rate, message } from "antd";
+import { Descriptions, Tag, Button, Spin, message } from "antd";
 import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../services/auth";
