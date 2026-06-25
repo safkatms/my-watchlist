@@ -20,13 +20,7 @@ export default function App() {
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          console.log("Redirect login success:", result.user.displayName);
-        }
-      })
-      .catch(console.error);
+    getRedirectResult(auth).catch(console.error);
   }, []);
 
   if (loading)
