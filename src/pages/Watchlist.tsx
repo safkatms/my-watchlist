@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { Row, Col, Empty, Spin } from "antd";
+import { Row, Col, Empty } from "antd";
 import { motion } from "framer-motion";
 import {
   getWatchlist,

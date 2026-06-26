@@ -1,4 +1,4 @@
-import { Tag, Rate, Button, Tooltip } from "antd";
+import { Rate, Button, Tooltip } from "antd";
 import {
   DeleteOutlined,
   EyeOutlined,

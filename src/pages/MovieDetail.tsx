@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Tag, Button, Spin, message, Rate } from "antd";
+import { Tag, Button, message, Rate } from "antd";
 import {
   ArrowLeftOutlined,
   PlusOutlined,
