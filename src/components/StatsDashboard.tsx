@@ -1,11 +1,13 @@
 import { useMemo } from "react";
-import { Row, Col, Card, Statistic } from "antd";
+import { motion } from "framer-motion";
 import {
-  TrophyOutlined,
-  ClockCircleOutlined,
-  StarOutlined,
-  PlayCircleOutlined,
+  CheckCircleOutlined,
   EyeOutlined,
+  ClockCircleOutlined,
+  PlayCircleOutlined,
+  FieldTimeOutlined,
+  StarOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
 import type { WatchlistEntry } from "../types";
 
@@ -13,12 +15,46 @@ interface Props {
   watchlist: WatchlistEntry[];
 }
 
+function StatCard({ label, value, icon, color, delay }: any) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay }}
+      style={{
+        background: "#141414",
+        border: "1px solid #2a2a2a",
+        borderRadius: 12,
+        padding: "20px 24px",
+        flex: 1,
+        minWidth: 120,
+      }}
+    >
+      <div style={{ fontSize: 22, color, marginBottom: 10 }}>{icon}</div>
+      <div style={{ fontSize: 28, fontWeight: 800, color, lineHeight: 1 }}>
+        {value}
+      </div>
+      <div
+        style={{
+          fontSize: 12,
+          color: "#555",
+          marginTop: 6,
+          fontWeight: 500,
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+        }}
+      >
+        {label}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function StatsDashboard({ watchlist }: Props) {
   const stats = useMemo(() => {
     const watched = watchlist.filter((m) => m.status === "watched");
     const watching = watchlist.filter((m) => m.status === "watching");
-    const movies = watched.filter((m) => m.Type === "movie");
-    const series = watched.filter((m) => m.Type === "series");
+    const planned = watchlist.filter((m) => m.status === "plan_to_watch");
 
     const totalMins = watched.reduce((acc, m) => {
       const mins = parseInt(m.Runtime ?? "0");
@@ -42,77 +78,69 @@ export default function StatsDashboard({ watchlist }: Props) {
       Object.entries(genreCount).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "N/A";
 
     return {
-      totalWatched: watched.length,
+      total: watchlist.length,
+      watched: watched.length,
       watching: watching.length,
-      movies: movies.length,
-      series: series.length,
-      hoursWatched: Math.round(totalMins / 60),
+      planned: planned.length,
+      hours: Math.round(totalMins / 60),
       avgRating,
       topGenre,
     };
   }, [watchlist]);
 
   return (
-    <Row gutter={[12, 12]} style={{ marginBottom: 24 }}>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Total watched"
-            value={stats.totalWatched}
-            prefix={<TrophyOutlined />}
-            valueStyle={{ color: "#52c41a" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Watching now"
-            value={stats.watching}
-            prefix={<PlayCircleOutlined />}
-            valueStyle={{ color: "#1677ff" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Hours watched"
-            value={stats.hoursWatched}
-            prefix={<ClockCircleOutlined />}
-            valueStyle={{ color: "#722ed1" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Avg my rating"
-            value={stats.avgRating}
-            prefix={<StarOutlined />}
-            valueStyle={{ color: "#faad14" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Movies"
-            value={stats.movies}
-            prefix={<EyeOutlined />}
-            valueStyle={{ color: "#13c2c2" }}
-          />
-        </Card>
-      </Col>
-      <Col xs={12} sm={8} md={4}>
-        <Card>
-          <Statistic
-            title="Top genre"
-            value={stats.topGenre}
-            valueStyle={{ color: "#eb2f96", fontSize: 18 }}
-          />
-        </Card>
-      </Col>
-    </Row>
+    <div style={{ marginBottom: 32 }}>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <StatCard
+          label="Total"
+          value={stats.total}
+          icon={<PlayCircleOutlined />}
+          color="#e50914"
+          delay={0}
+        />
+        <StatCard
+          label="Watched"
+          value={stats.watched}
+          icon={<CheckCircleOutlined />}
+          color="#52c41a"
+          delay={0.05}
+        />
+        <StatCard
+          label="Watching"
+          value={stats.watching}
+          icon={<EyeOutlined />}
+          color="#1677ff"
+          delay={0.1}
+        />
+        <StatCard
+          label="Planned"
+          value={stats.planned}
+          icon={<ClockCircleOutlined />}
+          color="#faad14"
+          delay={0.15}
+        />
+        <StatCard
+          label="Hours"
+          value={stats.hours}
+          icon={<FieldTimeOutlined />}
+          color="#8b5cf6"
+          delay={0.2}
+        />
+        <StatCard
+          label="Avg Rating"
+          value={stats.avgRating}
+          icon={<StarOutlined />}
+          color="#f5c518"
+          delay={0.25}
+        />
+        <StatCard
+          label="Top Genre"
+          value={stats.topGenre}
+          icon={<TrophyOutlined />}
+          color="#e50914"
+          delay={0.3}
+        />
+      </div>
+    </div>
   );
 }

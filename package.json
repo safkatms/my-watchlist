@@ -13,6 +13,7 @@
     "@ant-design/icons": "^6.2.5",
     "antd": "^6.4.5",
     "firebase": "^12.15.0",
+    "framer-motion": "^12.42.0",
     "install": "^0.13.0",
     "npm": "^11.17.0",
     "react": "^19.2.7",
