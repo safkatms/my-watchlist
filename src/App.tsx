@@ -13,6 +13,7 @@ import {
   UnorderedListOutlined,
   LogoutOutlined,
   PlayCircleFilled,
+  UploadOutlined,
 } from "@ant-design/icons";
 import { getRedirectResult } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -21,6 +22,7 @@ import Login from "./pages/Login";
 import Search from "./pages/Search";
 import Watchlist from "./pages/Watchlist";
 import MovieDetail from "./pages/MovieDetail";
+import Import from "./pages/Import";
 
 function Navbar({ user }: { user: any }) {
   const location = useLocation();
@@ -101,6 +103,25 @@ function Navbar({ user }: { user: any }) {
           }}
         >
           <SearchOutlined /> Search
+        </Link>
+        <Link
+          to="/import"
+          style={{
+            padding: "8px 16px",
+            borderRadius: 8,
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            background:
+              location.pathname === "/import" ? "#e50914" : "transparent",
+            color: location.pathname === "/import" ? "#fff" : "#aaa",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            transition: "all 0.2s",
+          }}
+        >
+          <UploadOutlined /> Import
         </Link>
       </div>
 
@@ -224,6 +245,10 @@ export default function App() {
               element={user ? <Search /> : <Navigate to="/" />}
             />
             <Route path="/movie/:id" element={<MovieDetail />} />
+            <Route
+              path="/import"
+              element={user ? <Import /> : <Navigate to="/" />}
+            />
           </Routes>
         </div>
       </div>
